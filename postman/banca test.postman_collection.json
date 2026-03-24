@@ -1,0 +1,526 @@
+{
+  "info": {
+    "_postman_id": "7ca45eee-bc5e-4f65-a9be-c08bd21ca00e",
+    "name": "banca test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "19890543",
+    "_collection_link": "https://go.postman.co/collection/19890543-7ca45eee-bc5e-4f65-a9be-c08bd21ca00e?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "clientes",
+      "item": [
+        {
+          "name": "crear cliente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "    });\r",
+                  "\r",
+                  "const response = pm.response.json();\r",
+                  "pm.expect(response.id).to.not.be.null;\r",
+                  "\r",
+                  "pm.test(\"Response body contiene todas las propiedades\", function () {\r",
+                  "    pm.expect(response).to.have.property('id_cliente'),\r",
+                  "    pm.expect(response).to.have.property('nombre'),\r",
+                  "    pm.expect(response).to.have.property('ciudad')\r",
+                  "});\r",
+                  "\r",
+                  "pm.environment.set('clienteId', response.id_cliente);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nombre\": \"Juan Perez\",\r\n  \"ciudad\": \"Buenos Aires\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{local}}clientes",
+              "host": [
+                "{{local}}clientes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "clientes",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nombre\": \"Juan Perez\",\r\n  \"ciudad\": \"Buenos Aires\"\r\n}"
+            },
+            "url": {
+              "raw": "{{local}}clientes",
+              "host": [
+                "{{local}}clientes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "clientes by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local}}clientes?id={{clienteId}}",
+              "host": [
+                "{{local}}clientes"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{clienteId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "cuentas",
+      "item": [
+        {
+          "name": "crear cuenta",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "const response = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Response body contiene todas las propiedades\", function () {\r",
+                  "    pm.expect(response).to.have.property(\"id_cuenta\");\r",
+                  "    pm.expect(response).to.have.property(\"id_cliente\");\r",
+                  "    pm.expect(response).to.have.property(\"saldo\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.environment.set('cuentaId', response.id_cuenta);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id_cliente\": {{clienteId}},\r\n  \"saldo\": 1000\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{local}}cuentas",
+              "host": [
+                "{{local}}cuentas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "todas las cuentas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local}}cuentas",
+              "host": [
+                "{{local}}cuentas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "cuenta by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local}}cuentas?id={{cuentaId}}",
+              "host": [
+                "{{local}}cuentas"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{cuentaId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "transacciones",
+      "item": [
+        {
+          "name": "tipo y cantidad de tx by id_cuenta",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{local}}transacciones/resumen/{{cuentaId}}",
+              "host": [
+                "{{local}}transacciones"
+              ],
+              "path": [
+                "resumen",
+                "{{cuentaId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "montos de tx by id_cuenta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local}}transacciones/montos/{{cuentaId}}",
+              "host": [
+                "{{local}}transacciones"
+              ],
+              "path": [
+                "montos",
+                "{{cuentaId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "balance by id_cuenta",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{local}}transacciones/balance/{{cuentaId}}",
+              "host": [
+                "{{local}}transacciones"
+              ],
+              "path": [
+                "balance",
+                "{{cuentaId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "crear retiro",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "const response = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"La transacción fue exitosa\", function () {\r",
+                  "    pm.expect(response).to.have.property(\"mensaje\");\r",
+                  "    pm.expect(response).to.have.property(\"saldo_actual\");\r",
+                  "    pm.expect(response).to.have.property(\"transaccion\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"El tipo de transacción existe\", function () {\r",
+                  "    pm.expect(response.transaccion).to.have.property(\"tipo\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.environment.set(\"ultimoSaldo\", response.saldo_actual);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id_cuenta\": {{cuentaId}},\r\n  \"tipo\": \"retiro\",\r\n  \"monto\": 1000\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{local}}transacciones",
+              "host": [
+                "{{local}}transacciones"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "crear deposito",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "const response = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"La transacción fue exitosa\", function () {\r",
+                  "    pm.expect(response).to.have.property(\"mensaje\");\r",
+                  "    pm.expect(response).to.have.property(\"saldo_actual\");\r",
+                  "    pm.expect(response).to.have.property(\"transaccion\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"El tipo de transacción existe\", function () {\r",
+                  "    pm.expect(response.transaccion).to.have.property(\"tipo\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.environment.set(\"ultimoSaldo\", response.saldo_actual);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id_cuenta\": {{cuentaId}},\r\n  \"tipo\": \"deposito\",\r\n  \"monto\": 500\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{local}}transacciones",
+              "host": [
+                "{{local}}transacciones"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ultima tx by id_cuenta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local}}transacciones/ultima/{{cuentaId}}",
+              "host": [
+                "{{local}}transacciones"
+              ],
+              "path": [
+                "ultima",
+                "{{cuentaId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "todas las tx by id_cuenta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local}}transacciones/cuenta/{{cuentaId}}",
+              "host": [
+                "{{local}}transacciones"
+              ],
+              "path": [
+                "cuenta",
+                "{{cuentaId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "filtrar por fecha y id_cuenta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local}}transacciones/cuenta/{{cuentaId}}?fecha_inicio=2026-03-01",
+              "host": [
+                "{{local}}transacciones"
+              ],
+              "path": [
+                "cuenta",
+                "{{cuentaId}}"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "fecha_inicio",
+                  "value": "2026-03-01"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "filtrar todas las tx por rango de fecha",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local}}transacciones/cuenta/{{cuentaId}}?fecha_inicio=2026-03-01&fecha_fin=2026-03-31",
+              "host": [
+                "{{local}}transacciones"
+              ],
+              "path": [
+                "cuenta",
+                "{{cuentaId}}"
+              ],
+              "query": [
+                {
+                  "key": "fecha_inicio",
+                  "value": "2026-03-01"
+                },
+                {
+                  "key": "fecha_fin",
+                  "value": "2026-03-31"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "filtrar por tipo de tx",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local}}transacciones/cuenta/{{cuentaId}}?tipo=deposito",
+              "host": [
+                "{{local}}transacciones"
+              ],
+              "path": [
+                "cuenta",
+                "{{cuentaId}}"
+              ],
+              "query": [
+                {
+                  "key": "tipo",
+                  "value": "deposito"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "filtrar por tipo de tx  y fecha",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{local}}transacciones/cuenta/{{cuentaId}}?tipo=retiro&fecha_inicio=2026-03-01&fecha_fin=2026-03-31",
+              "host": [
+                "{{local}}transacciones"
+              ],
+              "path": [
+                "cuenta",
+                "{{cuentaId}}"
+              ],
+              "query": [
+                {
+                  "key": "tipo",
+                  "value": "retiro"
+                },
+                {
+                  "key": "fecha_inicio",
+                  "value": "2026-03-01"
+                },
+                {
+                  "key": "fecha_fin",
+                  "value": "2026-03-31"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "BaseUrl",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+	"id": "7f4536e2-c617-4f41-907a-70ffb17aaca1",
+	"name": "dev",
+	"values": [
+		{
+			"key": "post_id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "clienteId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "cuentaId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "ultimoSaldo",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"color": null,
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-03-24T00:09:57.702Z",
+	"_postman_exported_using": "Postman/12.3.0"
+}
