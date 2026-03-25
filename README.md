@@ -2,7 +2,7 @@
 Este proyecto es una **simulación de un sistema bancario centrada en el control de calidad**, diseñada para practicar:
 
 * Pruebas de API con Postman
-* Validación de bases de datos con PostgreSQL
+* Validación de bases de datos con PostgreSQL y Mongodb para logs o auditoria
 * Integración del backend mediante Node.js (Express + Sequelize)
 * Validación de la lógica de negocio (coherencia financiera)
 
